@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz de História</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .quiz-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+        .question {
+            margin-bottom: 15px;
+        }
+        .question h2 {
+            font-size: 20px;
+        }
+        .answers {
+            list-style: none;
+            padding: 0;
+        }
+        .answers li {
+            margin-bottom: 10px;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <div id="quiz">
+            <!-- Perguntas serão injetadas aqui pelo JavaScript -->
+        </div>
+        <button class="btn" onclick="submitQuiz()">Enviar Respostas</button>
+        <div class="result" id="result"></div>
+    </div>
+    <script>
+        const quizData = [
+            {
+                question: "Revolução Francesa: Qual evento marcou o fim da monarquia absoluta na França e o início da Primeira República?",
+                a: "Queda da Bastilha",
+                b: "Tomada da Bastilha",
+                c: "Massacre de Setembro",
+                d: "Marcha sobre Versalhes",
+                correct: "b"
+            },
+            {
+                question: "Segunda Guerra Mundial: Qual país foi o primeiro a lançar bombas atômicas contra civis durante a Segunda Guerra Mundial?",
+                a: "Alemanha",
+                b: "Estados Unidos",
+                c: "Japão",
+                d: "União Soviética",
+                correct: "b"
+            },
+            {
+                question: "Guerra Fria: Qual foi a doutrina militar que defendia a contenção do comunismo e a utilização de armamentos nucleares para deter a União Soviética?",
+                a: "Doutrina Truman",
+                b: "Plano Marshall",
+                c: "Teoria do Dominó",
+                d: "Política de Contenção",
+                correct: "a"
+            }
+        ];
+
+        const quizContainer = document.getElementById('quiz');
+        const resultContainer = document.getElementById('result');
+
+        function loadQuiz() {
+            quizContainer.innerHTML = '';
+            quizData.forEach((question, questionIndex) => {
+                const questionElement = document.createElement('div');
+                questionElement.classList.add('question');
+                questionElement.innerHTML = `
+                    <h2>${question.question}</h2>
+                    <ul class="answers">
+                        <li>
+                            <input type="radio" name="question${questionIndex}" value="a" id="q${questionIndex}a">
+                            <label for="q${questionIndex}a">${question.a}</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="question${questionIndex}" value="b" id="q${questionIndex}b">
+                            <label for="q${questionIndex}b">${question.b}</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="question${questionIndex}" value="c" id="q${questionIndex}c">
+                            <label for="q${questionIndex}c">${question.c}</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="question${questionIndex}" value="d" id="q${questionIndex}d">
+                            <label for="q${questionIndex}d">${question.d}</label>
+                        </li>
+                    </ul>
+                `;
+                quizContainer.appendChild(questionElement);
+            });
+        }
+
+        function submitQuiz() {
+            let score = 0;
+            quizData.forEach((question, questionIndex) => {
+                const selectedAnswer = document.querySelector(`input[name="question${questionIndex}"]:checked`);
+                if (selectedAnswer && selectedAnswer.value === question.correct) {
+                    score++;
+                }
+            });
+            resultContainer.textContent = `Você acertou ${score} de ${quizData.length} perguntas.`;
+        }
+
+        loadQuiz();
+    </script>
+</body>
+</html>
+
